@@ -11,5 +11,9 @@ node {
        sh 'npm test'
      }
    }
-
+   stage('dockerbuildpush') {
+     docker.withRegistry('https://index.docker.io/v1/', 'dockerhubpipeline') {
+       def app = docker.build("seeniyadocker/docker-nodejs-demo:${commit_id}", '.').push()
+     }
+   }
 }
